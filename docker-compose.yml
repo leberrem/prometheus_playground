@@ -16,10 +16,8 @@ services:
 
   # Internal reverse proxy
   traefik:
-    image: traefik:1.5-alpine
+    image: traefik:v1.7.16-alpine
     container_name: traefik
-    # labels:
-    #   - SERVICE_IGNORE=true
     expose:
       - 80
       - 8080    
@@ -40,8 +38,10 @@ services:
               --docker.watch
               --metrics
               --metrics.prometheus"
-    # security_opt:
-    #   - label:disable
+    labels:
+      - SERVICE_IGNORE=true
+    security_opt:
+      - label:disable
 
   # Exporter host metrics
   nodeexporter:
