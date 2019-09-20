@@ -1,0 +1,135 @@
+version: '3'
+
+volumes:
+  traefik-data:
+    driver: local
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
+
+networks:
+  monitoring:
+    driver: bridge  
+
+services:
+
+  # Internal reverse proxy
+  traefik:
+    image: traefik:1.5-alpine
+    container_name: traefik
+    # labels:
+    #   - SERVICE_IGNORE=true
+    expose:
+      - 80
+      - 8080    
+    ports:
+      - "80:80"
+      - "8080:8080"
+    networks:
+      - monitoring
+    volumes:
+      - traefik-data:/etc/traefik
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: "-c /etc/traefik/traefik.toml
+              --web
+              --api
+              --docker
+              --docker.domain='docker.localhost'
+              --docker.endpoint=unix:///var/run/docker.sock
+              --docker.watch
+              --metrics
+              --metrics.prometheus"
+    # security_opt:
+    #   - label:disable
+
+  # Exporter host metrics
+  nodeexporter:
+    image: prom/node-exporter:latest
+    container_name: node_exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+    expose:
+      - 9100
+    networks:
+      - monitoring
+    labels:
+      - "SERVICE_TAGS=nodeexporter"
+      - "traefik.enable=false"    
+
+  # Exporter docker metrics
+  cadvisor:
+    image: google/cadvisor
+    container_name: cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    expose:
+      - 8080
+    networks:
+      - monitoring
+    labels:
+      - "SERVICE_TAGS=cadvisor"
+      - "traefik.enable=false"
+
+  # Metrics database
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    restart: unless-stopped    
+    volumes:
+      - ./resources/prometheus/:/etc/prometheus/
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention=200h'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+    expose:
+      - 9090 
+    ports:
+      - "9090:9090"
+    networks:
+      - monitoring
+    labels:
+      - "SERVICE_TAGS=prometheus"
+      - "traefik.enable=false"
+
+  # Metrics dashboard
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: unless-stopped
+    links:
+      - prometheus:prometheus
+    volumes:
+      - ./resources/grafana/providers:/etc/grafana/provisioning/dashboards/
+      - ./resources/grafana/datasources:/etc/grafana/provisioning/datasources/
+      - ./resources/grafana/dashboards:/var/lib/grafana/dashboards/    
+      - grafana-data:/var/lib/grafana
+    environment: 
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=test
+      - GF_USERS_ALLOW_SIGN_UP=false     
+      - GF_SERVER_ROOT_URL=http://docker.localhost/grafana
+    expose:
+      - 3000 
+    networks:
+      - monitoring
+    labels:
+      - "SERVICE_TAGS=grafana"
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=PathPrefixStrip:/grafana"
+      - "traefik.port=3000"
