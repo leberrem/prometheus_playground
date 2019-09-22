@@ -39,7 +39,8 @@ services:
               --docker.endpoint=unix:///var/run/docker.sock
               --docker.watch
               --metrics
-              --metrics.prometheus"
+              --metrics.prometheus
+              "
     labels:
       - SERVICE_IGNORE=true
     security_opt:

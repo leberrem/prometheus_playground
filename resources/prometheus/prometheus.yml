@@ -29,6 +29,16 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
+  - job_name: 'traefik'
+    # If the traefik has authentication
+    # basic_auth:
+    #     username: user
+    #     password: password
+    # If the entrypoint is HTTPS
+    # scheme: https
+    static_configs:
+      - targets: ['traefik:8080']     
+
 alerting:
   alertmanagers:
   - scheme: http
