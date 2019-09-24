@@ -28,7 +28,7 @@ services:
       - "SERVICE_TAGS=mongo"
       - "traefik.enable=false"
 
-  # Exporter mongodb metrics
+  # Exporter MongoDB metrics
   mongodbexporter:
     image: ssheehy/mongodb-exporter:0.10.0
     container_name: mongodb_exporter
