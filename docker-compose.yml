@@ -1,4 +1,4 @@
-version: '3'
+version: '2.1'
 
 volumes:
   traefik-data:
@@ -48,7 +48,7 @@ services:
 
   # Exporter host metrics
   nodeexporter:
-    image: prom/node-exporter:latest
+    image: prom/node-exporter:v0.18.1
     container_name: node_exporter
     restart: unless-stopped
     volumes:
@@ -65,12 +65,12 @@ services:
     networks:
       - monitoring
     labels:
-      - "SERVICE_TAGS=nodeexporter"
+      - "SERVICE_TAGS=node_exporter"
       - "traefik.enable=false"    
 
   # Exporter docker metrics
   cadvisor:
-    image: google/cadvisor
+    image: google/cadvisor:v0.32.0
     container_name: cadvisor
     volumes:
       - /:/rootfs:ro
@@ -88,7 +88,7 @@ services:
 
   # Metrics database
   prometheus:
-    image: prom/prometheus
+    image: prom/prometheus:v2.12.0
     container_name: prometheus
     restart: unless-stopped    
     volumes:
@@ -139,7 +139,7 @@ services:
 
   # Metrics dashboard
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:6.3.5
     container_name: grafana
     restart: unless-stopped
     links:

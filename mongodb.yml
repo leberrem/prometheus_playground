@@ -1,0 +1,47 @@
+version: '2.1'
+
+volumes:
+  mongodb_conf:
+    driver: local
+  mongodb_data:
+    driver: local
+
+networks:
+  monitoring:
+    driver: bridge  
+
+services:
+
+  # MongoDB
+  mongodb:
+    image: mongo:4.2.0
+    container_name: mongodb
+    restart: unless-stopped
+    volumes:
+      - mongodb_data:/data/db
+      - mongodb_conf:/data/configdb
+    expose:
+      - 27017
+    networks:
+      - monitoring
+    labels:
+      - "SERVICE_TAGS=mongo"
+      - "traefik.enable=false"
+
+  # Exporter mongodb metrics
+  mongodbexporter:
+    image: ssheehy/mongodb-exporter:0.10.0
+    container_name: mongodb_exporter
+    restart: unless-stopped
+    depends_on: 
+      - mongodb
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017
+    expose:
+      - 9216
+    networks:
+      - monitoring
+    labels:
+      - "SERVICE_TAGS=mongodb_exporter"
+      - "traefik.enable=false"    
+

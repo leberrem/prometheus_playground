@@ -763,8 +763,7 @@
   "schemaVersion": 19,
   "style": "dark",
   "tags": [
-    "traefik",
-    "prometheus"
+    "traefik"
   ],
   "templating": {
     "list": [

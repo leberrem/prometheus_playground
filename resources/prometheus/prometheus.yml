@@ -15,12 +15,12 @@ rule_files:
 # A scrape configuration containing exactly one endpoint to scrape.
 scrape_configs:
   - job_name: 'cadvisor'
-    scrape_interval: 5s
+    scrape_interval: 10s
     static_configs:
       - targets: ['cadvisor:8080']
 
-  - job_name: 'node_exporter'
-    scrape_interval: 5s
+  - job_name: 'node'
+    scrape_interval: 10s
     static_configs:
       - targets: ['node_exporter:9100']
 
@@ -30,14 +30,19 @@ scrape_configs:
       - targets: ['localhost:9090']
 
   - job_name: 'traefik'
-    # If the traefik has authentication
-    # basic_auth:
-    #     username: user
-    #     password: password
-    # If the entrypoint is HTTPS
-    # scheme: https
+    scrape_interval: 10s
     static_configs:
       - targets: ['traefik:8080']     
+
+  - job_name: 'redis'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['redis_exporter:9121'] 
+
+  - job_name: 'mongodb'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['mongodb_exporter:9216'] 
 
 alerting:
   alertmanagers:
