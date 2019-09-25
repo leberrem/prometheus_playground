@@ -30,6 +30,9 @@ Sample docker-compose prometheus Stack with auto-configuration and default dashb
 * user: admin
 * password : test
 
+**NATS**
+* http://docker.localhost/nats
+
 **Traefik**
 * http://localhost:8080/
 

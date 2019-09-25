@@ -49,6 +49,11 @@ scrape_configs:
     static_configs:
       - targets: ['haproxy_exporter:9101'] 
 
+  - job_name: 'nats'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['nats_exporter:7777'] 
+
 alerting:
   alertmanagers:
   - scheme: http

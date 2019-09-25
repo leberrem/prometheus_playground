@@ -1,0 +1,43 @@
+version: '2.1'
+                      
+networks:
+  monitoring:
+    driver: bridge  
+
+services:
+
+  # NATS
+  nats:
+    image: nats:2.1.0
+    container_name: nats
+    restart: unless-stopped     
+    expose:
+      - 8222
+      - 4222
+    ports:
+      - 8222:8222     
+    networks:
+      - monitoring
+    labels:
+      - "SERVICE_TAGS=nats-streaming"
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=PathPrefixStrip:/nats"
+      - "traefik.port=8222"                                                                                                                         
+
+  # Exporter nats metrics
+  natsexporter:
+    image: synadia/prometheus-nats-exporter:0.6.0
+    container_name: nats_exporter
+    restart: unless-stopped
+    depends_on: 
+      - nats
+    command:
+      - 'http://nats:8222'
+    expose:
+      - 7777
+    networks:
+      - monitoring
+    labels:
+      - "SERVICE_TAGS=haproxy_exporter"
+      - "traefik.enable=false"    
+
