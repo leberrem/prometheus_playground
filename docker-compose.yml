@@ -25,7 +25,6 @@ services:
       - 8080    
     ports:
       - "80:80"
-      - "8080:8080"
     networks:
       - monitoring
     volumes:
@@ -43,6 +42,9 @@ services:
               "
     labels:
       - SERVICE_IGNORE=true
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=PathPrefixStrip:/traefik"
+      - "traefik.port=8080"      
     security_opt:
       - label:disable
 

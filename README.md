@@ -17,6 +17,9 @@ Sample docker-compose prometheus Stack with auto-configuration and default dashb
 > ```
 > <br>
 
+**Traefik**
+* http://docker.localhost/traefik
+
 **Grafana**
 * http://docker.localhost/grafana
 * user: admin
@@ -36,12 +39,11 @@ Sample docker-compose prometheus Stack with auto-configuration and default dashb
 **NATS**
 * http://docker.localhost/nats
 
-**Traefik**
-* http://localhost:8080/
-
 **Commands**
 * Start init stack : `make up`
 * Start init stack + redis: `make up_redis`
 * Start init stack + mongodb: `make up_mongo`
+* Start init stack + haproxy: `make up_haproxy`
+* Start init stack + nats: `make up_nats`
 * Stop all : `make down`
 * Remove all : `make remove`
