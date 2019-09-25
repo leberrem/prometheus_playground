@@ -10,9 +10,12 @@ Sample docker-compose prometheus Stack with auto-configuration and default dashb
 * Grafana
 
 > **Remarks :**<br>
-> Please add `docker.localhost` on localhost IP to your file `/etc/hosts`<br>
+> Please add `docker.localhost` to your file `/etc/hosts`<br>
 > 
-> `127.0.0.1	localhost docker.localhost`
+> ```shell
+> 127.0.0.1	localhost docker.localhost
+> ```
+> <br>
 
 **Grafana**
 * http://docker.localhost/grafana
