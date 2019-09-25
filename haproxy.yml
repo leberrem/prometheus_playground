@@ -14,16 +14,14 @@ services:
     volumes:
       - ./resources/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
     expose:
-      - 8081
       - 9000
-    ports:
-      - "8081:8081"
-      - "9000:9000"
     networks:
       - monitoring
     labels:
       - "SERVICE_TAGS=haproxy"
-      - "traefik.enable=false"
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=PathPrefix:/haproxy"
+      - "traefik.port=9000"
 
   # Exporter haproxy metrics
   haproxyexporter:
@@ -33,7 +31,7 @@ services:
     depends_on: 
       - haproxy
     command:
-      - '--haproxy.scrape-uri=http://${ADMIN_USER}:${ADMIN_PASSWORD}@haproxy:9000/stats?stats;csv'
+      - '--haproxy.scrape-uri=http://${ADMIN_USER}:${ADMIN_PASSWORD}@haproxy:9000/haproxy?stats;csv'
     expose:
       - 9101
     networks:

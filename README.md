@@ -25,6 +25,11 @@ Sample docker-compose prometheus Stack with auto-configuration and default dashb
 **AlertManager**
 * http://docker.localhost/alertmanager
 
+**HAProxy**
+* http://docker.localhost/haproxy
+* user: admin
+* password : test
+
 **Traefik**
 * http://localhost:8080/
 

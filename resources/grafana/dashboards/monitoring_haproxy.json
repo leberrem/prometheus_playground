@@ -4895,8 +4895,7 @@
     "schemaVersion": 19,
     "style": "dark",
     "tags": [
-      "haproxy",
-      "servers"
+      "haproxy"
     ],
     "templating": {
       "list": [
