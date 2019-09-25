@@ -1,0 +1,44 @@
+version: '2.1'
+
+networks:
+  monitoring:
+    driver: bridge  
+
+services:
+
+  # haproxy
+  haproxy:
+    image: haproxy:1.9.10
+    container_name: haproxy
+    restart: unless-stopped
+    volumes:
+      - ./resources/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    expose:
+      - 8081
+      - 9000
+    ports:
+      - "8081:8081"
+      - "9000:9000"
+    networks:
+      - monitoring
+    labels:
+      - "SERVICE_TAGS=haproxy"
+      - "traefik.enable=false"
+
+  # Exporter haproxy metrics
+  haproxyexporter:
+    image: prom/haproxy-exporter:v0.10.0
+    container_name: haproxy_exporter
+    restart: unless-stopped
+    depends_on: 
+      - haproxy
+    command:
+      - '--haproxy.scrape-uri=http://${ADMIN_USER}:${ADMIN_PASSWORD}@haproxy:9000/stats?stats;csv'
+    expose:
+      - 9101
+    networks:
+      - monitoring
+    labels:
+      - "SERVICE_TAGS=haproxy_exporter"
+      - "traefik.enable=false"    
+

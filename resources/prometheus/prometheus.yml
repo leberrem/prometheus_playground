@@ -44,6 +44,11 @@ scrape_configs:
     static_configs:
       - targets: ['mongodb_exporter:9216'] 
 
+  - job_name: 'haproxy'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['haproxy_exporter:9101'] 
+
 alerting:
   alertmanagers:
   - scheme: http
