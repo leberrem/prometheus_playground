@@ -7,7 +7,7 @@ volumes:
     driver: local
   grafana-data:
     driver: local
-  altermanager-data:
+  alertmanager-data:
     driver: local
 
 networks:
@@ -116,14 +116,14 @@ services:
       - "traefik.frontend.rule=PathPrefixStrip:/prometheus"
       - "traefik.port=9090"
 
-  # Metrics alterting
+  # Alertmanager
   alertmanager:
     image: prom/alertmanager:v0.19.0
     container_name: alertmanager
     restart: unless-stopped
     volumes:
       - ./resources/alertmanager/:/etc/alertmanager/
-      - altermanager-data:/prometheus    
+      - alertmanager-data:/prometheus    
     command:
       - '--config.file=/etc/alertmanager/config.yml'
       - '--storage.path=/alertmanager'
