@@ -1,8 +1,8 @@
 # Prometheus Playground
 
-![docker-compose](images/docker-compose.png)![Prometheus](images/prometheus.png)![Grafana](images/grafana.png)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![Traefik](images/traefik.png)
+![docker-compose](images/docker-compose.png)![Prometheus](images/prometheus.png)![Grafana](images/grafana.png)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![cAdvisor](images/cadvisor.png)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![Traefik](images/traefik.png)
 
-Playground for prometheus Stack with exporter, auto-configuration and default dashboards for Grafana. It's the best way to get in into one's hand.
+Playground for prometheus basic stack with exporter, auto-configuration and default dashboards for Grafana. It's the best way to get in into one's hand.
 
 * Traefik
 * cAdvisor
@@ -11,7 +11,7 @@ Playground for prometheus Stack with exporter, auto-configuration and default da
 * AlertManager
 * Grafana
 
-More docker-compose files :
+Bonus docker-compose files :
 
 * HAProxy
 * MongoDB
