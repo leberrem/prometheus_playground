@@ -20,14 +20,14 @@ Bonus docker-compose files :
 * Redis
 * NATS
 
+## URL
+
 > **Remarks :**<br>
 > Please add `docker.localhost` to your file `/etc/hosts`<br>
 > 
 > ```shell
 > 127.0.0.1	localhost docker.localhost
 > ```
-
-## URL
 
 **Traefik**
 * http://docker.localhost/traefik
