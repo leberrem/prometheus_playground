@@ -26,7 +26,6 @@ Bonus docker-compose files :
 > ```shell
 > 127.0.0.1	localhost docker.localhost
 > ```
-> <br>
 
 ## URL
 
@@ -43,6 +42,8 @@ Bonus docker-compose files :
 
 **AlertManager**
 * http://docker.localhost/alertmanager
+
+--------------------------------------------------------------------------------
 
 **HAProxy**
 * http://docker.localhost/haproxy
