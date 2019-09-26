@@ -11,14 +11,14 @@ Playground for prometheus basic stack with exporter, auto-configuration and defa
 * AlertManager
 * Grafana
 
+![HAProxy](images/haproxy.png)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![MongoDB](images/mongodb.png)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![Redis](images/redis.png)&nbsp;&nbsp;&nbsp;&nbsp;![NATS](images/nats.png) 
+
 Bonus docker-compose files :
 
 * HAProxy
 * MongoDB
 * Redis
 * NATS
-
-![HAProxy](images/haproxy.png)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![MongoDB](images/mongodb.png)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![Redis](images/redis.png)&nbsp;&nbsp;&nbsp;&nbsp;![NATS](images/nats.png) 
 
 > **Remarks :**<br>
 > Please add `docker.localhost` to your file `/etc/hosts`<br>
