@@ -1,13 +1,24 @@
-# Prometheus Stack
+# Prometheus Playground
 
-Sample docker-compose prometheus Stack with auto-configuration and default dashboards
+![docker-compose](images/docker-compose.png)![Prometheus](images/prometheus.png)![Grafana](images/grafana.png)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![Traefik](images/traefik.png)
 
-* traefik
+Playground for prometheus Stack with exporter, auto-configuration and default dashboards for Grafana. It's the best way to get in into one's hand.
+
+* Traefik
 * cAdvisor
-* node exporter
+* Node exporter
 * Prometheus
 * AlertManager
 * Grafana
+
+More docker-compose files :
+
+* HAProxy
+* MongoDB
+* Redis
+* NATS
+
+![HAProxy](images/haproxy.png)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![MongoDB](images/mongodb.png)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![Redis](images/redis.png)&nbsp;&nbsp;&nbsp;&nbsp;![NATS](images/nats.png) 
 
 > **Remarks :**<br>
 > Please add `docker.localhost` to your file `/etc/hosts`<br>
@@ -16,6 +27,8 @@ Sample docker-compose prometheus Stack with auto-configuration and default dashb
 > 127.0.0.1	localhost docker.localhost
 > ```
 > <br>
+
+## URL
 
 **Traefik**
 * http://docker.localhost/traefik
@@ -39,7 +52,8 @@ Sample docker-compose prometheus Stack with auto-configuration and default dashb
 **NATS**
 * http://docker.localhost/nats
 
-**Commands**
+## COMMANDS
+
 * Start init stack : `make up`
 * Start init stack + redis: `make up_redis`
 * Start init stack + mongodb: `make up_mongo`
