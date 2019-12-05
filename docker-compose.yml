@@ -12,7 +12,7 @@ volumes:
 
 networks:
   monitoring:
-    driver: bridge  
+    driver: bridge
 
 services:
 
@@ -22,7 +22,7 @@ services:
     container_name: traefik
     expose:
       - 80
-      - 8080    
+      - 8080
     ports:
       - "80:80"
     networks:
@@ -44,7 +44,7 @@ services:
       - SERVICE_IGNORE=true
       - "traefik.enable=true"
       - "traefik.frontend.rule=PathPrefixStrip:/traefik"
-      - "traefik.port=8080"      
+      - "traefik.port=8080"
     security_opt:
       - label:disable
 
@@ -68,7 +68,7 @@ services:
       - monitoring
     labels:
       - "SERVICE_TAGS=node_exporter"
-      - "traefik.enable=false"    
+      - "traefik.enable=false"
 
   # Exporter docker metrics
   cadvisor:
@@ -82,6 +82,13 @@ services:
       - /dev/disk/:/dev/disk:ro
     expose:
       - 8080
+    command:
+      - --allow_dynamic_housekeeping=true
+      - --housekeeping_interval=30s
+      - --global_housekeeping_interval=2m
+      - --disable_metrics=disk,tcp,udp,sched,process
+      - --enable_load_reader
+      - --load_reader_interval=5s
     networks:
       - monitoring
     labels:
@@ -92,7 +99,7 @@ services:
   prometheus:
     image: prom/prometheus:v2.12.0
     container_name: prometheus
-    restart: unless-stopped    
+    restart: unless-stopped
     volumes:
       - ./resources/prometheus/:/etc/prometheus/
       - prometheus-data:/prometheus
@@ -105,7 +112,7 @@ services:
       - "--web.external-url=http://${FQDN}/prometheus/"
       - "--web.route-prefix=/"
     expose:
-      - 9090 
+      - 9090
     networks:
       - monitoring
     labels:
@@ -121,7 +128,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./resources/alertmanager/:/etc/alertmanager/
-      - alertmanager-data:/prometheus    
+      - alertmanager-data:/prometheus
     command:
       - '--config.file=/etc/alertmanager/config.yml'
       - '--storage.path=/alertmanager'
@@ -147,15 +154,15 @@ services:
     volumes:
       - ./resources/grafana/providers:/etc/grafana/provisioning/dashboards/
       - ./resources/grafana/datasources:/etc/grafana/provisioning/datasources/
-      - ./resources/grafana/dashboards:/var/lib/grafana/dashboards/    
+      - ./resources/grafana/dashboards:/var/lib/grafana/dashboards/
       - grafana-data:/var/lib/grafana
-    environment: 
+    environment:
       - GF_SECURITY_ADMIN_USER=${ADMIN_USER}
       - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD}
-      - GF_USERS_ALLOW_SIGN_UP=false     
+      - GF_USERS_ALLOW_SIGN_UP=false
       - GF_SERVER_ROOT_URL=http://${FQDN}/grafana
     expose:
-      - 3000 
+      - 3000
     networks:
       - monitoring
     labels:

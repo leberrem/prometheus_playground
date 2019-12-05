@@ -1,0 +1,46 @@
+version: '2.1'
+
+networks:
+  monitoring:
+    driver: bridge
+
+services:
+
+  # elasticsearch
+  elasticsearch:
+    image: elasticsearch:7.5.0
+    container_name: elasticsearch
+    restart: unless-stopped
+    expose:
+      - 9200
+      - 9300
+    ports:
+      - 9200:9200
+    networks:
+      - monitoring
+    environment:
+      - discovery.type=single-node
+    labels:
+      - "SERVICE_TAGS=elasticsearch"
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=PathPrefixStrip:/elasticsearch"
+      - "traefik.port=9200"
+
+  # Exporter elasticsearch metrics
+  elasticsearchexporter:
+    image: justwatch/elasticsearch_exporter:1.1.0
+    container_name: elasticsearch_exporter
+    restart: unless-stopped
+    depends_on:
+      - elasticsearch
+    command:
+      - --es.uri=http://elasticsearch:9200
+      - --es.all
+    expose:
+      - 9114
+    networks:
+      - monitoring
+    labels:
+      - "SERVICE_TAGS=elasticsearch_exporter"
+      - "traefik.enable=false"
+

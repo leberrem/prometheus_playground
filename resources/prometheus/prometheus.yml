@@ -1,6 +1,6 @@
 global:
-  scrape_interval:     15s
-  evaluation_interval: 15s
+  scrape_interval:     10s
+  evaluation_interval: 10s
 
   # Attach these labels to any time series or alerts when communicating with
   # external systems (federation, remote storage, Alertmanager).
@@ -11,7 +11,7 @@ global:
 # Load and evaluate rules in this file every 'evaluation_interval' seconds.
 rule_files:
   - "alert.rules"
-  
+
 # A scrape configuration containing exactly one endpoint to scrape.
 scrape_configs:
   - job_name: 'cadvisor'
@@ -32,31 +32,36 @@ scrape_configs:
   - job_name: 'traefik'
     scrape_interval: 10s
     static_configs:
-      - targets: ['traefik:8080']     
+      - targets: ['traefik:8080']
 
   - job_name: 'redis'
     scrape_interval: 10s
     static_configs:
-      - targets: ['redis_exporter:9121'] 
+      - targets: ['redis_exporter:9121']
 
   - job_name: 'mongodb'
     scrape_interval: 10s
     static_configs:
-      - targets: ['mongodb_exporter:9216'] 
+      - targets: ['mongodb_exporter:9216']
 
   - job_name: 'haproxy'
     scrape_interval: 10s
     static_configs:
-      - targets: ['haproxy_exporter:9101'] 
+      - targets: ['haproxy_exporter:9101']
 
   - job_name: 'nats'
     scrape_interval: 10s
     static_configs:
-      - targets: ['nats_exporter:7777'] 
+      - targets: ['nats_exporter:7777']
+
+  - job_name: 'elasticsearch'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['elasticsearch_exporter:9114']
 
 alerting:
   alertmanagers:
   - scheme: http
     static_configs:
-    - targets: 
-      - 'alertmanager:9093'      
+    - targets:
+      - 'alertmanager:9093'
