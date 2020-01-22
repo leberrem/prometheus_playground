@@ -72,7 +72,7 @@ services:
 
   # Exporter docker metrics
   cadvisor:
-    image: google/cadvisor:v0.32.0
+    image: gcr.io/google_containers/cadvisor:v0.35.0
     container_name: cadvisor
     volumes:
       - /:/rootfs:ro
@@ -88,7 +88,6 @@ services:
       - --global_housekeeping_interval=2m
       - --disable_metrics=disk,tcp,udp,sched,process
       - --enable_load_reader
-      - --load_reader_interval=5s
     networks:
       - monitoring
     labels:
