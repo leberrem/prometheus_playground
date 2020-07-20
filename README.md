@@ -11,7 +11,7 @@ Playground for prometheus basic stack with exporter, auto-configuration and defa
 * AlertManager
 * Grafana
 
-![HAProxy](images/haproxy.png)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![MongoDB](images/mongodb.png)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![Redis](images/redis.png)&nbsp;&nbsp;&nbsp;&nbsp;![NATS](images/nats.png) 
+![HAProxy](images/haproxy.png)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![MongoDB](images/mongodb.png)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![Redis](images/redis.png)&nbsp;&nbsp;&nbsp;&nbsp;![NATS](images/nats.png)
 
 Bonus docker-compose files :
 
@@ -24,7 +24,7 @@ Bonus docker-compose files :
 
 > **Remarks :**<br>
 > Please add `docker.localhost` to your file `/etc/hosts`<br>
-> 
+>
 > ```shell
 > 127.0.0.1	localhost docker.localhost
 > ```
@@ -59,6 +59,7 @@ Bonus docker-compose files :
 * Start init stack + redis: `make up_redis`
 * Start init stack + mongodb: `make up_mongo`
 * Start init stack + haproxy: `make up_haproxy`
-* Start init stack + nats: `make up_nats`
+* Start init stack + nats: `make up_elasticsearch`
+* Start init stack + victoria metrics: `make up_victoriametrics`
 * Stop all : `make down`
 * Remove all : `make remove`

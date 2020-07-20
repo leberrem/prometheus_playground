@@ -1,0 +1,30 @@
+version: '2.1'
+
+networks:
+  monitoring:
+    driver: bridge
+
+volumes:
+  victoriametrics_data:
+    driver: local
+
+services:
+
+  # victoriaMetrics
+  victoriametrics:
+    image: victoriametrics/victoria-metrics:v1.38.1
+    container_name: victoriametrics
+    restart: unless-stopped
+    expose:
+      - 8428
+    ports:
+      - 8428:8428
+    networks:
+      - monitoring
+    volumes:
+      - victoriametrics_data:/victoria-metrics-data
+    command:
+      - "-retentionPeriod=24"
+    labels:
+      - "SERVICE_TAGS=victoria_metrics"
+      - "traefik.enable=false"

@@ -59,6 +59,11 @@ scrape_configs:
     static_configs:
       - targets: ['elasticsearch_exporter:9114']
 
+remote_write:
+  - url: "http://victoriametrics:8428/api/v1/write"
+    queue_config:
+      max_samples_per_send: 10000
+
 alerting:
   alertmanagers:
   - scheme: http

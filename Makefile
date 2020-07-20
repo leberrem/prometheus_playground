@@ -22,11 +22,15 @@ up_elasticsearch:
 	export COMPOSE_FILE=docker-compose.yml:elasticsearch.yml; \
 	docker-compose up -d --remove-orphans
 
+up_victoriametrics:
+	export COMPOSE_FILE=docker-compose.yml:victoriametrics.yml; \
+	docker-compose up -d --remove-orphans
+
 down:
-	export COMPOSE_FILE=docker-compose.yml:redis.yml:mongodb.yml:haproxy.yml:nats.yml:elasticsearch.yml; \
+	export COMPOSE_FILE=docker-compose.yml:redis.yml:mongodb.yml:haproxy.yml:nats.yml:elasticsearch.yml:victoriametrics.yml; \
 	docker-compose down
 
 remove:
-	export COMPOSE_FILE=docker-compose.yml:redis.yml:mongodb.yml:haproxy.yml:nats.yml:elasticsearch.yml; \
+	export COMPOSE_FILE=docker-compose.yml:redis.yml:mongodb.yml:haproxy.yml:nats.yml:elasticsearch.yml:victoriametrics.yml; \
 	docker-compose rm -sf
 	docker volume prune -f
