@@ -4,6 +4,12 @@ networks:
   monitoring:
     driver: bridge
 
+volumes:
+  elasticsearch_data:
+    driver: local
+  elasticsearch_sharedata:
+    driver: local
+
 services:
 
   # elasticsearch
@@ -18,6 +24,9 @@ services:
       - 9200:9200
     networks:
       - monitoring
+    volumes:
+      - elasticsearch_data:/data
+      - elasticsearch_sharedata:/usr/share/elasticsearch/data
     environment:
       - discovery.type=single-node
     labels:
